@@ -33,6 +33,26 @@ public class PatientController {
         return "Patient added via request body";
     }
 
+    @GetMapping("/getInfoViaPathVariable/{patientID}")
+    public Patient getPatientInfo(@PathVariable("patientID")Integer patientID){
+        Patient patient = hashMap.get(patientID);
+        return patient;
+    }
+
+    @GetMapping("/getInfoViaPath/{age}/{name}")
+    public List<Patient> getPatientInfos(@PathVariable("age")Integer age, @PathVariable("name")String name){
+
+        List<Patient> patients = new ArrayList<>();
+
+        for(Patient p : hashMap.values()){
+            if(p.getAge() > age && p.getName().equals(name)){
+                patients.add(p);
+            }
+        }
+
+        return patients;
+    }
+
     @GetMapping("/getPatientInfo")
     public Patient getPatientI(@RequestParam("patientID")Integer patientid){
 
@@ -64,6 +84,44 @@ public class PatientController {
         }
 
         return null;
+    }
+
+    @PutMapping("/updatePatientName")
+    public String update(@RequestParam("patientID")Integer patientID, @RequestParam("name")String name){
+
+        if(hashMap.containsKey(patientID)){
+
+            Patient patient = hashMap.get(patientID);
+
+            patient.setName(name);
+
+            return "Patient name updated";
+        }
+        return "patient details not found";
+    }
+
+
+
+    @PutMapping("/updatePatient")
+    public String updatePatientName(@RequestBody Patient patient){
+
+        int key = patient.getPatientID();
+
+        if(hashMap.containsKey(key)){
+
+            hashMap.put(key, patient);
+
+            return "Patient name has been updated successfully";
+        }
+        return "patient details not found!";
+    }
+
+    @DeleteMapping("/deletePatient")
+    public String deletePatient(@RequestParam("patientID")Integer patientID){
+
+        hashMap.remove(patientID);
+
+        return "Patient deleted Successfully";
     }
 
 
