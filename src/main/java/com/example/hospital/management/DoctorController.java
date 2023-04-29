@@ -27,4 +27,20 @@ public class DoctorController {
 
         return db;
     }
+
+    @PutMapping("/update")
+    public String updateDoctorName(@RequestParam("doctorID")Integer patientID, @RequestParam("name")String name){
+
+        if(doctorDB.containsKey(patientID)){
+
+            Doctor db = doctorDB.get(patientID);
+
+            db.setName(name);
+
+            return "Doctor name has been set";
+
+        }
+
+        return "Doctor does not exist";
+    }
 }
