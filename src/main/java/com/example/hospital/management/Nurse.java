@@ -3,6 +3,7 @@ package com.example.hospital.management;
 public class Nurse {
 
     private int nurseID;
+    // adding nurse
 
     private String name;
 
